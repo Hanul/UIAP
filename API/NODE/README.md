@@ -1,0 +1,3 @@
+# NODE API
+* [APP_STORE_PURCHASE_VALIDATE.md](APP_STORE_PURCHASE_VALIDATE.md) 앱 스토어에서 이루어진 결제 정보를 검증합니다.
+* [GOOGLE_PLAY_PURCHASE_VALIDATE.md](GOOGLE_PLAY_PURCHASE_VALIDATE.md) 구글 플레이에서 이루어진 결제 정보를 검증합니다.

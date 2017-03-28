@@ -51,7 +51,7 @@ UIAP.APP_STORE_PURCHASE_VALIDATE = METHOD({
 						if (tryCount < 2) {
 							f();
 						} else if (errorHandler !== undefined) {
-							errorHandler();
+							errorHandler(errorMsg);
 						} else {
 							UIAP.SHOW_ERROR('APP_STORE_PURCHASE_VALIDATE', errorMsg, params);
 						}
@@ -68,9 +68,9 @@ UIAP.APP_STORE_PURCHASE_VALIDATE = METHOD({
 							if (tryCount < 2) {
 								f();
 							} else if (errorHandler !== undefined) {
-								errorHandler();
+								errorHandler('Error! Data: ' + content);
 							} else {
-								UIAP.SHOW_ERROR('APP_STORE_PURCHASE_VALIDATE', 'Error! Data:', content);
+								UIAP.SHOW_ERROR('APP_STORE_PURCHASE_VALIDATE', 'Error! Data: ' + content);
 							}
 						}
 						

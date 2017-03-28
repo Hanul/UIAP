@@ -83,7 +83,7 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 								if (tryCount < 2) {
 									f();
 								} else if (errorHandler !== undefined) {
-									errorHandler();
+									errorHandler(errorMsg);
 								} else {
 									UIAP.SHOW_ERROR('GOOGLE_PLAY_PURCHASE_VALIDATE', errorMsg);
 								}
@@ -98,7 +98,7 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 									if (tryCount < 2) {
 										f();
 									} else if (errorHandler !== undefined) {
-										errorHandler();
+										errorHandler('result is undefined.');
 									} else {
 										UIAP.SHOW_ERROR('GOOGLE_PLAY_PURCHASE_VALIDATE', 'result is undefined.');
 									}
@@ -136,9 +136,9 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 								if (tryCount < 2) {
 									f();
 								} else if (errorHandler !== undefined) {
-									errorHandler();
+									errorHandler('Error! Data: ' + json);
 								} else {
-									UIAP.SHOW_ERROR('GOOGLE_PLAY_PURCHASE_VALIDATE', 'Error! Data:', json);
+									UIAP.SHOW_ERROR('GOOGLE_PLAY_PURCHASE_VALIDATE', 'Error! Data: ' + json);
 								}
 							}
 							

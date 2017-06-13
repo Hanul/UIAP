@@ -2,11 +2,7 @@
 인앱 결제 관련 기능들을 담은 UPPERCASE용 BOX입니다.
 
 ## 설치하기
-1. 프로젝트의 `DEPENDENCY` 파일에 `Hanul/UIAP`를 추가합니다.
-2. [`ubm`](https://www.npmjs.com/package/ubm)을 이용해 설치합니다.
-	```
-	ubm install
-	```
+프로젝트의 `DEPENDENCY` 파일에 `Hanul/UIAP`를 추가합니다.
 
 ## `APP_STORE_PURCHASE_VALIDATE`
 앱 스토어에서 이루어진 결제 정보를 검증합니다.
@@ -30,17 +26,24 @@ UIAP.APP_STORE_PURCHASE_VALIDATE({
 구글 플레이에서 이루어진 결제 정보를 검증합니다. 
 
 ### 사용 전 준비사항
-1. Start off by going into the google play developer console as the main Administrator of the account (this role is the only one who is allowed to perform the following steps).
-2. Go to "Settings->API Access" to link a Google Developer project to this account.
-3. If you are new here choose "create new project".
-4. You will now have more options. Choose "Create Service Account".
-5. Follow the link to the Google Developer Console and your project
-6. Click "Create new client id" to create a new client ID
-7. Ignore the .p12 file that will be downloaded to your machine and instead click "generate new JSON key".
-8. This will download a JSON file to your machine. We will get back to that file in a second.
-9. Now go back to the play store publisher account and click "done". Your new generate user will appear here.
-10. Click "grant access" and grant the user rights to read your project.
-11. Now setup your Node.JS project with this module and provide the email-address and the private key found in the json file as options to this module.
+1. 구글 플레이 콘솔에 관리자 계정으로 로그인합니다.
+2. `설정 - API 액세스`로 이동합니다. (서비스 약관이 뜨면, 수락합니다.)
+3. `새 프로젝트 만들기`를 누릅니다.
+4. 하단의 `서비스 계정 만들기`를 누릅니다.
+5. Google API 콘솔로 이동합니다.
+6. `서비스 계정 만들기`를 누릅니다.
+7. 서비스 계정 세부정보를 입력합니다.
+8. `역할`은 `Project - 편집자`를 선택합니다.
+9. `새 비공개 키 제공` 체크박스를 누릅니다.
+10. `JSON`을 누릅니다.
+11. `만들기`를 누릅니다.
+12. 자동으로 다운로드되는 `.json` 파일을 엽니다. (이 파일은 반드시 백업해 두시기 바랍니다.)
+13. `.json` 파일의 `client_email` 항목과 `private_key` 항목의 내용을 아래 [설정](#설정)에 기입합니다.
+14. 구글 플레이 콘솔로 돌아와, `완료`를 누릅니다.
+15. 서비스 계정이 나타나면 `액세스 권한 부여`를 누릅니다.
+16. 역할을 `금융`으로 선택합니다.
+17. `사용자 추가`를 누릅니다.
+18. 모든 설정이 완료되었습니다.
 
 ### 설정
 ```javascript

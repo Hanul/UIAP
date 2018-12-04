@@ -80,7 +80,7 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 						}, {
 							error : (errorMsg) => {
 								
-								if (tryCount < 2) {
+								if (tryCount < 3) {
 									f();
 								} else if (errorHandler !== undefined) {
 									errorHandler(errorMsg);
@@ -95,7 +95,7 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 								
 								if (result === undefined) {
 									
-									if (tryCount < 2) {
+									if (tryCount < 3) {
 										f();
 									} else if (errorHandler !== undefined) {
 										errorHandler('result is undefined.');
@@ -133,7 +133,7 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 							
 							if (data === undefined) {
 								
-								if (tryCount < 2) {
+								if (tryCount < 3) {
 									f();
 								} else if (errorHandler !== undefined) {
 									errorHandler('Error! Data: ' + json);

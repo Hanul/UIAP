@@ -12,7 +12,7 @@ UIAP.APP_STORE_PURCHASE_VALIDATE = METHOD({
 		
 		let productId = params.productId;
 		let receipt = params.receipt;
-			
+		
 		let errorHandler;
 		let callback;
 		
@@ -48,7 +48,7 @@ UIAP.APP_STORE_PURCHASE_VALIDATE = METHOD({
 				}, {
 					error : (errorMsg) => {
 						
-						if (tryCount < 2) {
+						if (tryCount < 3) {
 							f();
 						} else if (errorHandler !== undefined) {
 							errorHandler(errorMsg);
@@ -65,7 +65,7 @@ UIAP.APP_STORE_PURCHASE_VALIDATE = METHOD({
 						
 						if (data === undefined) {
 							
-							if (tryCount < 2) {
+							if (tryCount < 3) {
 								f();
 							} else if (errorHandler !== undefined) {
 								errorHandler('Error! Data: ' + content);

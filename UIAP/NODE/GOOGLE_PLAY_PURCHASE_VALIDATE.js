@@ -39,11 +39,7 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 				}
 			}
 			
-			let tryCount = 0;
-			
-			let f = () => {
-				
-				tryCount += 1;
+			let f = RAR(() => {
 				
 				NEXT([
 				(next) => {
@@ -78,15 +74,8 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 								'Content-Type' : 'application/x-www-form-urlencoded'
 							}
 						}, {
-							error : (errorMsg) => {
-								
-								if (tryCount < 3) {
-									f();
-								} else if (errorHandler !== undefined) {
-									errorHandler(errorMsg);
-								} else {
-									UIAP.SHOW_ERROR('GOOGLE_PLAY_PURCHASE_VALIDATE', errorMsg);
-								}
+							error : () => {
+								f();
 							},
 							
 							success : (content) => {
@@ -94,14 +83,7 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 								let result = PARSE_STR(content);
 								
 								if (result === undefined) {
-									
-									if (tryCount < 3) {
-										f();
-									} else if (errorHandler !== undefined) {
-										errorHandler('result is undefined.');
-									} else {
-										UIAP.SHOW_ERROR('GOOGLE_PLAY_PURCHASE_VALIDATE', 'result is undefined.');
-									}
+									f();
 								}
 								
 								else {
@@ -132,14 +114,7 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 							let data = PARSE_STR(json);
 							
 							if (data === undefined) {
-								
-								if (tryCount < 3) {
-									f();
-								} else if (errorHandler !== undefined) {
-									errorHandler('Error! Data: ' + json);
-								} else {
-									UIAP.SHOW_ERROR('GOOGLE_PLAY_PURCHASE_VALIDATE', 'Error! Data: ' + json);
-								}
+								f();
 							}
 							
 							else if (callback !== undefined) {
@@ -155,9 +130,7 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 						});
 					};
 				}]);
-			};
-			
-			f();
+			});
 		}
 	};
 });

@@ -26,11 +26,7 @@ UIAP.APP_STORE_PURCHASE_VALIDATE = METHOD({
 			}
 		}
 		
-		let tryCount = 0;
-		
-		let f = () => {
-			
-			tryCount += 1;
+		let f = RAR(() => {
 			
 			let host = 'buy.itunes.apple.com';
 			
@@ -46,15 +42,8 @@ UIAP.APP_STORE_PURCHASE_VALIDATE = METHOD({
 						'receipt-data' : receipt
 					})
 				}, {
-					error : (errorMsg) => {
-						
-						if (tryCount < 3) {
-							f();
-						} else if (errorHandler !== undefined) {
-							errorHandler(errorMsg);
-						} else {
-							UIAP.SHOW_ERROR('APP_STORE_PURCHASE_VALIDATE', errorMsg, params);
-						}
+					error : () => {
+						f();
 					},
 					
 					success : (content) => {
@@ -64,14 +53,7 @@ UIAP.APP_STORE_PURCHASE_VALIDATE = METHOD({
 						let isValid = false;
 						
 						if (data === undefined) {
-							
-							if (tryCount < 3) {
-								f();
-							} else if (errorHandler !== undefined) {
-								errorHandler('Error! Data: ' + content);
-							} else {
-								UIAP.SHOW_ERROR('APP_STORE_PURCHASE_VALIDATE', 'Error! Data: ' + content);
-							}
+							f();
 						}
 						
 						else {
@@ -106,8 +88,6 @@ UIAP.APP_STORE_PURCHASE_VALIDATE = METHOD({
 					}
 				});
 			});
-		};
-		
-		f();
+		});
 	}
 });

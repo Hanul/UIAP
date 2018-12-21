@@ -49,10 +49,10 @@ UIAP.GOOGLE_PLAY_GET_VOIDED_PURCHASES = METHOD((m) => {
 						iat: iat
 					};
 					
-					let jwt = new Buffer(STRINGIFY({
+					let jwt = Buffer.from(STRINGIFY({
 						alg : 'RS256',
 						typ : 'JWT'
-					})).toString('base64') + '.' + new Buffer(STRINGIFY(claims)).toString('base64');
+					})).toString('base64') + '.' + Buffer.from(STRINGIFY(claims)).toString('base64');
 		
 					jwt += '.' + Crypto.createSign('RSA-SHA256').update(jwt).sign(NODE_CONFIG.UIAP.GooglePlay.privateKey, 'base64');
 					

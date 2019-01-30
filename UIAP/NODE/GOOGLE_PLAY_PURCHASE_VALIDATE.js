@@ -10,9 +10,6 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 	
 	let urlData = URL.parse(url);
 	
-	let savedAccessToken;
-	let lastGetTokenTime;
-	
 	return {
 		
 		run : (params, callbackOrHandlers) => {
@@ -44,75 +41,66 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 				NEXT([
 				(next) => {
 					
-					if (savedAccessToken === undefined || Date.now() - lastGetTokenTime.getTime() > 30 * 60 * 1000) {
-						
-						let iat = INTEGER(Date.now() / 1000);
-						let exp = iat + INTEGER(60 * 60);
-						
-						let claims = {
-							iss: NODE_CONFIG.UIAP.GooglePlay.clientEmail,
-							scope: 'https://www.googleapis.com/auth/androidpublisher',
-							aud: url,
-							exp: exp,
-							iat: iat
-						};
-						
-						let jwt = Buffer.from(STRINGIFY({
-							alg : 'RS256',
-							typ : 'JWT'
-						})).toString('base64') + '.' + Buffer.from(STRINGIFY(claims)).toString('base64');
-			
-						jwt += '.' + Crypto.createSign('RSA-SHA256').update(jwt).sign(NODE_CONFIG.UIAP.GooglePlay.privateKey, 'base64');
-						
-						POST({
-							isSecure : urlData.protocol === 'https:',
-							host : urlData.hostname === TO_DELETE ? undefined : urlData.hostname,
-							port : urlData.port === TO_DELETE ? undefined : INTEGER(urlData.port),
-							uri : urlData.pathname === TO_DELETE ? undefined : urlData.pathname.substring(1),
-							paramStr : 'grant_type=' + encodeURIComponent('urn:ietf:params:oauth:grant-type:jwt-bearer') + '&assertion=' + encodeURIComponent(jwt),
-							headers : {
-								'Content-Type' : 'application/x-www-form-urlencoded'
-							}
-						}, {
-							error : () => {
-								f();
-							},
-							
-							success : (content) => {
-								
-								let result = PARSE_STR(content);
-								
-								if (result === undefined) {
-									f();
-								}
-								
-								else {
-									
-									savedAccessToken = result.access_token;
-									lastGetTokenTime = new Date();
-									
-									next();
-								}
-							}
-						});
-					}
+					let iat = INTEGER(Date.now() / 1000);
+					let exp = iat + INTEGER(60 * 60);
 					
-					else {
-						next();
-					}
+					let claims = {
+						iss: NODE_CONFIG.UIAP.GooglePlay.clientEmail,
+						scope: 'https://www.googleapis.com/auth/androidpublisher',
+						aud: url,
+						exp: exp,
+						iat: iat
+					};
+					
+					let jwt = Buffer.from(STRINGIFY({
+						alg : 'RS256',
+						typ : 'JWT'
+					})).toString('base64') + '.' + Buffer.from(STRINGIFY(claims)).toString('base64');
+		
+					jwt += '.' + Crypto.createSign('RSA-SHA256').update(jwt).sign(NODE_CONFIG.UIAP.GooglePlay.privateKey, 'base64');
+					
+					POST({
+						isSecure : urlData.protocol === 'https:',
+						host : urlData.hostname === TO_DELETE ? undefined : urlData.hostname,
+						port : urlData.port === TO_DELETE ? undefined : INTEGER(urlData.port),
+						uri : urlData.pathname === TO_DELETE ? undefined : urlData.pathname.substring(1),
+						paramStr : 'grant_type=' + encodeURIComponent('urn:ietf:params:oauth:grant-type:jwt-bearer') + '&assertion=' + encodeURIComponent(jwt),
+						headers : {
+							'Content-Type' : 'application/x-www-form-urlencoded'
+						}
+					}, {
+						error : () => {
+							f();
+						},
+						
+						success : (content) => {
+							
+							let result = PARSE_STR(content);
+							
+							// 결과가 없으면 재시도
+							if (result === undefined) {
+								f();
+							}
+							
+							else {
+								next(result.access_token);
+							}
+						}
+					});
 				},
 				
 				() => {
-					return () => {
+					return (accessToken) => {
 						
 						GET({
 							isSecure : true,
 							host : 'www.googleapis.com',
-							uri : 'androidpublisher/v2/applications/' + encodeURIComponent(NODE_CONFIG.UIAP.GooglePlay.appPackageName) + '/purchases/products/' + encodeURIComponent(productId) + '/tokens/' + encodeURIComponent(purchaseToken) + '?access_token=' + encodeURIComponent(savedAccessToken)
+							uri : 'androidpublisher/v2/applications/' + encodeURIComponent(NODE_CONFIG.UIAP.GooglePlay.appPackageName) + '/purchases/products/' + encodeURIComponent(productId) + '/tokens/' + encodeURIComponent(purchaseToken) + '?access_token=' + encodeURIComponent(accessToken)
 						}, (json) => {
 							
 							let data = PARSE_STR(json);
 							
+							// 결과가 없으면 재시도
 							if (data === undefined) {
 								f();
 							}

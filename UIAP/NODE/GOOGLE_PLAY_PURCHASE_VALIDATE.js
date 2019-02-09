@@ -4,7 +4,7 @@
 UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 	
 	let url = 'https://www.googleapis.com/oauth2/v4/token';
-					
+	
 	let URL = require('url');
 	let Crypto = require('crypto');
 	
@@ -16,12 +16,18 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 			//REQUIRED: params
 			//REQUIRED: params.productId
 			//REQUIRED: params.purchaseToken
+			//OPTIONAL: params.appPackageName
 			//REQUIRED: callbackOrHandlers
 			//OPTIONAL: callbackOrHandlers.error
 			//OPTIONAL: callbackOrHandlers.success
 			
 			let productId = params.productId;
 			let purchaseToken = params.purchaseToken;
+			let appPackageName = params.appPackageName;
+			
+			if (appPackageName === undefined) {
+				appPackageName = NODE_CONFIG.UIAP.GooglePlay.appPackageName;
+			}
 			
 			let errorHandler;
 			let callback;
@@ -95,7 +101,7 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 						GET({
 							isSecure : true,
 							host : 'www.googleapis.com',
-							uri : 'androidpublisher/v2/applications/' + encodeURIComponent(NODE_CONFIG.UIAP.GooglePlay.appPackageName) + '/purchases/products/' + encodeURIComponent(productId) + '/tokens/' + encodeURIComponent(purchaseToken) + '?access_token=' + encodeURIComponent(accessToken)
+							uri : 'androidpublisher/v2/applications/' + encodeURIComponent(appPackageName) + '/purchases/products/' + encodeURIComponent(productId) + '/tokens/' + encodeURIComponent(purchaseToken) + '?access_token=' + encodeURIComponent(accessToken)
 						}, (json) => {
 							
 							let data = PARSE_STR(json);

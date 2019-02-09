@@ -4,7 +4,7 @@
 UIAP.GOOGLE_PLAY_GET_VOIDED_PURCHASES = METHOD((m) => {
 	
 	let url = 'https://www.googleapis.com/oauth2/v4/token';
-					
+	
 	let URL = require('url');
 	let Crypto = require('crypto');
 	
@@ -12,10 +12,20 @@ UIAP.GOOGLE_PLAY_GET_VOIDED_PURCHASES = METHOD((m) => {
 	
 	return {
 		
-		run : (callbackOrHandlers) => {
+		run : (appPackageName, callbackOrHandlers) => {
+			//OPTIONAL: appPackageName
 			//REQUIRED: callbackOrHandlers
 			//OPTIONAL: callbackOrHandlers.error
 			//REQUIRED: callbackOrHandlers.success
+			
+			if (callbackOrHandlers === undefined) {
+				callbackOrHandlers = appPackageName;
+				appPackageName = undefined;
+			}
+			
+			if (appPackageName === undefined) {
+				appPackageName = NODE_CONFIG.UIAP.GooglePlay.appPackageName;
+			}
 			
 			let errorHandler;
 			let callback;
@@ -76,7 +86,7 @@ UIAP.GOOGLE_PLAY_GET_VOIDED_PURCHASES = METHOD((m) => {
 					GET({
 						isSecure : true,
 						host : 'www.googleapis.com',
-						uri : 'androidpublisher/v2/applications/' + encodeURIComponent(NODE_CONFIG.UIAP.GooglePlay.appPackageName) + '/purchases/voidedpurchases?access_token=' + encodeURIComponent(accessToken)
+						uri : 'androidpublisher/v2/applications/' + encodeURIComponent(appPackageName) + '/purchases/voidedpurchases?access_token=' + encodeURIComponent(accessToken)
 					}, (json) => {
 						
 						let data = PARSE_STR(json);

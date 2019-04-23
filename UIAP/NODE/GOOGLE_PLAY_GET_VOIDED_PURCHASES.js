@@ -86,7 +86,7 @@ UIAP.GOOGLE_PLAY_GET_VOIDED_PURCHASES = METHOD((m) => {
 					GET({
 						isSecure : true,
 						host : 'www.googleapis.com',
-						uri : 'androidpublisher/v2/applications/' + encodeURIComponent(appPackageName) + '/purchases/voidedpurchases?access_token=' + encodeURIComponent(accessToken)
+						uri : 'androidpublisher/v3/applications/' + encodeURIComponent(appPackageName) + '/purchases/voidedpurchases?access_token=' + encodeURIComponent(accessToken)
 					}, (json) => {
 						
 						let data = PARSE_STR(json);

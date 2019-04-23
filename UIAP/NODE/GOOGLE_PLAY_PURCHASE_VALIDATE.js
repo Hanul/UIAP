@@ -101,7 +101,7 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 						GET({
 							isSecure : true,
 							host : 'www.googleapis.com',
-							uri : 'androidpublisher/v2/applications/' + encodeURIComponent(appPackageName) + '/purchases/products/' + encodeURIComponent(productId) + '/tokens/' + encodeURIComponent(purchaseToken) + '?access_token=' + encodeURIComponent(accessToken)
+							uri : 'androidpublisher/v3/applications/' + encodeURIComponent(appPackageName) + '/purchases/products/' + encodeURIComponent(productId) + '/tokens/' + encodeURIComponent(purchaseToken) + '?access_token=' + encodeURIComponent(accessToken)
 						}, (json) => {
 							
 							let data = PARSE_STR(json);

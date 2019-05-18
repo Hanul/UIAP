@@ -12,32 +12,17 @@ UIAP.GOOGLE_PLAY_GET_VOIDED_PURCHASES = METHOD((m) => {
 	
 	return {
 		
-		run : (appPackageName, callbackOrHandlers) => {
+		run : (appPackageName, callback) => {
 			//OPTIONAL: appPackageName
-			//REQUIRED: callbackOrHandlers
-			//OPTIONAL: callbackOrHandlers.error
-			//REQUIRED: callbackOrHandlers.success
+			//REQUIRED: callback
 			
-			if (callbackOrHandlers === undefined) {
-				callbackOrHandlers = appPackageName;
+			if (callback === undefined) {
+				callback = appPackageName;
 				appPackageName = undefined;
 			}
 			
 			if (appPackageName === undefined) {
 				appPackageName = NODE_CONFIG.UIAP.GooglePlay.appPackageName;
-			}
-			
-			let errorHandler;
-			let callback;
-			
-			if (callbackOrHandlers !== undefined) {
-				
-				if (CHECK_IS_DATA(callbackOrHandlers) !== true) {
-					callback = callbackOrHandlers;
-				} else {
-					errorHandler = callbackOrHandlers.error;
-					callback = callbackOrHandlers.success;
-				}
 			}
 			
 			NEXT([

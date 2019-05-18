@@ -3,28 +3,13 @@
  */
 UIAP.APP_STORE_PURCHASE_VALIDATE = METHOD({
 	
-	run : (params, callbackOrHandlers) => {
+	run : (params, callback) => {
 		//REQUIRED: params.productId
 		//REQUIRED: params.receipt
-		//REQUIRED: callbackOrHandlers
-		//OPTIONAL: callbackOrHandlers.error
-		//OPTIONAL: callbackOrHandlers.success
+		//REQUIRED: callback
 		
 		let productId = params.productId;
 		let receipt = params.receipt;
-		
-		let errorHandler;
-		let callback;
-		
-		if (callbackOrHandlers !== undefined) {
-			
-			if (CHECK_IS_DATA(callbackOrHandlers) !== true) {
-				callback = callbackOrHandlers;
-			} else {
-				errorHandler = callbackOrHandlers.error;
-				callback = callbackOrHandlers.success;
-			}
-		}
 		
 		let f = RAR(() => {
 			

@@ -12,14 +12,12 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 	
 	return {
 		
-		run : (params, callbackOrHandlers) => {
+		run : (params, callback) => {
 			//REQUIRED: params
 			//REQUIRED: params.productId
 			//REQUIRED: params.purchaseToken
 			//OPTIONAL: params.appPackageName
-			//REQUIRED: callbackOrHandlers
-			//OPTIONAL: callbackOrHandlers.error
-			//OPTIONAL: callbackOrHandlers.success
+			//REQUIRED: callback
 			
 			let productId = params.productId;
 			let purchaseToken = params.purchaseToken;
@@ -27,19 +25,6 @@ UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE = METHOD((m) => {
 			
 			if (appPackageName === undefined) {
 				appPackageName = NODE_CONFIG.UIAP.GooglePlay.appPackageName;
-			}
-			
-			let errorHandler;
-			let callback;
-			
-			if (callbackOrHandlers !== undefined) {
-				
-				if (CHECK_IS_DATA(callbackOrHandlers) !== true) {
-					callback = callbackOrHandlers;
-				} else {
-					errorHandler = callbackOrHandlers.error;
-					callback = callbackOrHandlers.success;
-				}
 			}
 			
 			let f = RAR(() => {

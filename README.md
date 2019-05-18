@@ -12,13 +12,8 @@
 UIAP.APP_STORE_PURCHASE_VALIDATE({
 	productId : '{{productId}}',
 	receipt : '{{receipt}}'
-}, {
-	error : (errorMsg) => {
-		...
-	},
-	success : (isValid) => {
-		console.log(isValid);
-	}
+}, (isValid) => {
+	console.log(isValid);
 });
 ```
 
@@ -76,13 +71,8 @@ BOOT({
 UIAP.GOOGLE_PLAY_PURCHASE_VALIDATE({
 	productId : '{{productId}}',
 	purchaseToken : '{{purchaseToken}}'
-}, {
-	error : (errorMsg) => {
-		...
-	},
-	success : (isValid) => {
-		console.log(isValid);
-	}
+}, (isValid) => {
+	console.log(isValid);
 });
 ```
 

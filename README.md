@@ -42,6 +42,8 @@ UIAP.APP_STORE_PURCHASE_VALIDATE({
 17. `사용자 추가`를 누릅니다.
 18. 모든 설정이 완료되었습니다.
 
+***위 설정을 하여도 바로 적용되지 않고, 적용되는데 시간이 조금 걸립니다. 여유를 가지고 기다려주세요.***
+
 ### 설정
 ```javascript
 require(process.env.UPPERCASE_PATH + '/LOAD.js');
